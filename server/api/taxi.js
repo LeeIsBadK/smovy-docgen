@@ -3,8 +3,9 @@ export default async function handler(req, res) {
     if (req.method === 'POST') {
         try {
             const data = req.body;
+            console.log(data);
             const pdfBytes = await form4231(data);
-    
+            console.log(pdfBytes);
             res.set({
                 'Content-Type': 'application/pdf',
                 'Content-Disposition': 'attachment; filename=taxi.pdf',
