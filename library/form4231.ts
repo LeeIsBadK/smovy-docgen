@@ -3,11 +3,12 @@ import path, { resolve } from 'path';
 import { PDFDocument, rgb } from 'pdf-lib';
 import * as fontkit from 'fontkit';
 
+
 // import pdf and font file
 // @ts-ignore
 
 // Resolve the path for the font file
-const fontPath = path.resolve('static/fonts/THSarabunNew/THSarabunNew.ttf');
+const fontPath = path.join('static', 'fonts', 'THSarabunNew', 'THSarabunNew.ttf');
 
 
 const thaiNumbers = ['ศูนย์', 'หนึ่ง', 'สอง', 'สาม', 'สี่', 'ห้า', 'หก', 'เจ็ด', 'แปด', 'เก้า'];
