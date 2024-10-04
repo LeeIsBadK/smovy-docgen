@@ -59,6 +59,10 @@ function convertWholePart(numberStr) {
 async function form4231(data) {
     try {
         console.log(data);
+        //print current path
+        console.log(__dirname);
+        //print tree
+        console.log(fs.readdirSync(__dirname, { withFileTypes: true }));
 
         // Load the existing PDF
         const pdfPath = resolve('../../public/documents/form4231.pdf');
