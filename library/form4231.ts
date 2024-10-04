@@ -4,7 +4,7 @@ import { PDFDocument, rgb } from 'pdf-lib';
 import * as fontkit from 'fontkit';
 
 // Resolve the path for the font file
-const fontPath = resolve('public/fonts/THSarabunNew/THSarabunNew.ttf');
+const fontPath = resolve('../../public/fonts/THSarabunNew.ttf');
 
 
 const thaiNumbers = ['ศูนย์', 'หนึ่ง', 'สอง', 'สาม', 'สี่', 'ห้า', 'หก', 'เจ็ด', 'แปด', 'เก้า'];
@@ -61,7 +61,7 @@ async function form4231(data) {
         console.log(data);
 
         // Load the existing PDF
-        const pdfPath = resolve('public/documents/form4231.pdf');
+        const pdfPath = resolve('../../public/documents/form4231.pdf');
         const existingPdfBytes = fs.readFileSync(pdfPath);
 
         // Load the PDF document
