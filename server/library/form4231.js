@@ -166,7 +166,6 @@ async function form4231(data) {
 
         // Serialize the PDF document to bytes (Uint8Array)
         const pdfBytes = await pdfDoc.save();
-
         return pdfBytes;
     } catch (error) {
         console.error('Error processing PDF:', error);

@@ -1,7 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import { form4231 } from './library/taxi.js';
+import { form4231 } from './library/form4231.js';
 
 dotenv.config(); // Load environment variables
 
@@ -21,14 +21,14 @@ app.use(cors({
 }));
 
 // Define a POST endpoint
-app.post('/taxi', async (req, res) => {
+app.post('/api/taxi', async (req, res) => {
     try {
         const data = req.body;
         const pdfBytes = await form4231(data);
 
         res.set({
             'Content-Type': 'application/pdf',
-            'Content-Disposition': 'attachment; filename=form4231.pdf',
+            'Content-Disposition': 'attachment; filename=taxi_receipt-12.pdf',
         });
         res.send(Buffer.from(pdfBytes));
     } catch (error) {

@@ -9,7 +9,7 @@ const handleSubmit = () => {
     let province = document.querySelector('select').value;
     let amount = document.querySelector('input[type="number"]').value;
     
-    axios.post(PUBLIC_API_KEY + '/taxi', {
+    axios.post(PUBLIC_API_KEY + '/api/taxi', {
         date: date,
         taxi_plate: taxi_plate,
         province: province,
