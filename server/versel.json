@@ -1,0 +1,13 @@
+{
+    "version": 2,
+    "public": {
+      "src": "public/**",
+      "dest": "public"
+    },
+    "routes": [
+      {
+        "src": "/api/(.*)",
+        "dest": "server.js"
+      }
+    ]
+  }
