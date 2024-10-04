@@ -1,0 +1,7 @@
+{
+	"/": [],
+	"/api/taxi": [
+		"src/routes/api/taxi/+server.ts"
+	],
+	"/taxi": []
+}
