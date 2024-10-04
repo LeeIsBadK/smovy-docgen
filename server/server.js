@@ -2,7 +2,8 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import { form4231 } from './library/form4231.js';
-
+const { createRequire } = await import('module');
+const require = createRequire(import.meta.url);
 dotenv.config(); // Load environment variables
 
 const app = express();
