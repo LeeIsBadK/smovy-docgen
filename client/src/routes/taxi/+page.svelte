@@ -2,7 +2,7 @@
 // @ts-nocheck
 import axios from 'axios';
 import {province_th} from '../../lib/province.ts';
-import {PUBLIC_API_KEY} from '$env/static/public';
+import {PUBLIC_API_ENDPOINT} from '$env/static/public';
 const handleSubmit = () => {
     let date = document.querySelector('input[type="date"]').value;
     let taxi_plate = document.querySelector('input[type="text"]').value;
