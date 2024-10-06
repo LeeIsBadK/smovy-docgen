@@ -4,6 +4,7 @@ import path from "path";
 import { PDFDocument, rgb } from "pdf-lib";
 import * as fontkit from "fontkit";
 const isProd = process.env.NODE_ENV === "production";
+console.log(isProd);
 const fontPath = isProd ? path.join(process.cwd(), "public", "fonts", "THSarabunNew", "THSarabunNew.ttf") : path.join(process.cwd(), "static", "fonts", "THSarabunNew", "THSarabunNew.ttf");
 const pdfPath = isProd ? path.join(process.cwd(), "public", "documents", "form4231.pdf") : path.join(process.cwd(), "static", "documents", "form4231.pdf");
 const thaiNumbers = ["ศูนย์", "หนึ่ง", "สอง", "สาม", "สี่", "ห้า", "หก", "เจ็ด", "แปด", "เก้า"];

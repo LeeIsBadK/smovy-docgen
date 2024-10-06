@@ -7,6 +7,8 @@ const isProd = process.env.NODE_ENV === 'production';
 // import pdf and font file
 // @ts-ignore
 
+console.log(isProd);
+
 // Resolve the path for the font file
 
 // Update paths for Vercel (public folder)
