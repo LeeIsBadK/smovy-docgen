@@ -7,19 +7,41 @@ const isProd = process.env.NODE_ENV === 'production';
 // import pdf and font file
 // @ts-ignore
 
-console.log(isProd);
+import fetch from 'node-fetch';
+
+async function loadFontAndPdf() {
+    // Use the correct base URL depending on the environment
+    const baseUrl = process.env.NODE_ENV === 'production'
+        ? `https://${process.env.VERCEL_URL}`
+        : 'http://localhost:3000';  // Adjust this if your local development uses a different base URL
+
+    // URLs for font and PDF files
+    const fontUrl = `${baseUrl}/fonts/THSarabunNew.ttf`;
+    const pdfUrl = `${baseUrl}/documents/form4231.pdf`;
+
+    // Fetch the font and PDF from their URLs
+    const fontResponse = await fetch(fontUrl);
+    if (!fontResponse.ok) {
+        throw new Error(`Failed to fetch font: ${fontResponse.statusText}`);
+    }
+    const fontArrayBuffer = await fontResponse.arrayBuffer();
+
+    const pdfResponse = await fetch(pdfUrl);
+    if (!pdfResponse.ok) {
+        throw new Error(`Failed to fetch PDF: ${pdfResponse.statusText}`);
+    }
+    const pdfArrayBuffer = await pdfResponse.arrayBuffer();
+
+    return {
+        font: fontArrayBuffer,
+        pdf: pdfArrayBuffer
+    };
+}
 
 // Resolve the path for the font file
 
 // Update paths for Vercel (public folder)
-const fontPath = isProd
-    ? path.join(process.cwd(), 'public', 'fonts', 'THSarabunNew', 'THSarabunNew.ttf')
-    : path.join(process.cwd(), 'static', 'fonts', 'THSarabunNew', 'THSarabunNew.ttf');
-
-const pdfPath = isProd
-    ? path.join(process.cwd(), 'public', 'documents', 'form4231.pdf')
-    : path.join(process.cwd(), 'static', 'documents', 'form4231.pdf');
-
+const { font, pdf } = await loadFontAndPdf();
 
 const thaiNumbers = ['ศูนย์', 'หนึ่ง', 'สอง', 'สาม', 'สี่', 'ห้า', 'หก', 'เจ็ด', 'แปด', 'เก้า'];
 const thaiUnits = ['', 'สิบ', 'ร้อย', 'พัน', 'หมื่น', 'แสน', 'ล้าน'];
@@ -76,7 +98,7 @@ async function form4231(data) {
         //print current path
 
         // Load the existing PDF
-        const existingPdfBytes = fs.readFileSync(pdfPath);
+        const existingPdfBytes = fs.readFileSync(pdf);
 
         // Load the PDF document
         const pdfDoc = await PDFDocument.load(existingPdfBytes);
@@ -86,7 +108,7 @@ async function form4231(data) {
         pdfDoc.registerFontkit(fontkit);
 
         // Read the font file
-        const fontBytes = fs.readFileSync(fontPath);
+        const fontBytes = fs.readFileSync(font);
 
         // Embed the custom font
         const thSarabunFont = await pdfDoc.embedFont(fontBytes);
