@@ -3,7 +3,9 @@ import fs from "fs";
 import path from "path";
 import { PDFDocument, rgb } from "pdf-lib";
 import * as fontkit from "fontkit";
-const fontPath = path.join(process.cwd(), "static", "fonts", "THSarabunNew", "THSarabunNew.ttf");
+const isProd = process.env.NODE_ENV === "production";
+const fontPath = isProd ? path.join(process.cwd(), "public", "fonts", "THSarabunNew", "THSarabunNew.ttf") : path.join(process.cwd(), "static", "fonts", "THSarabunNew", "THSarabunNew.ttf");
+const pdfPath = isProd ? path.join(process.cwd(), "public", "documents", "form4231.pdf") : path.join(process.cwd(), "static", "documents", "form4231.pdf");
 const thaiNumbers = ["ศูนย์", "หนึ่ง", "สอง", "สาม", "สี่", "ห้า", "หก", "เจ็ด", "แปด", "เก้า"];
 const thaiUnits = ["", "สิบ", "ร้อย", "พัน", "หมื่น", "แสน", "ล้าน"];
 function convertToThaiText(number) {
@@ -44,7 +46,6 @@ function convertWholePart(numberStr) {
 async function form4231(data) {
   try {
     console.log(data);
-    const pdfPath = path.join(process.cwd(), "static", "documents", "form4231.pdf");
     const existingPdfBytes = fs.readFileSync(pdfPath);
     const pdfDoc = await PDFDocument.load(existingPdfBytes);
     pdfDoc.registerFontkit(fontkit);
