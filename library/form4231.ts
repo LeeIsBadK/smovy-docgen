@@ -8,7 +8,7 @@ import * as fontkit from 'fontkit';
 // @ts-ignore
 
 // Resolve the path for the font file
-const fontPath = path.join('static', 'fonts', 'THSarabunNew', 'THSarabunNew.ttf');
+const fontPath = path.join(process.cwd(), 'static', 'fonts', 'THSarabunNew', 'THSarabunNew.ttf');
 
 
 const thaiNumbers = ['ศูนย์', 'หนึ่ง', 'สอง', 'สาม', 'สี่', 'ห้า', 'หก', 'เจ็ด', 'แปด', 'เก้า'];
@@ -66,7 +66,7 @@ async function form4231(data) {
         //print current path
 
         // Load the existing PDF
-        const pdfPath = path.join(process.cwd(), 'static', 'documents', 'form4231.pdf');
+        const pdfPath = path.join(process.cwd(), 'static' ,'documents', 'form4231.pdf');
         const existingPdfBytes = fs.readFileSync(pdfPath);
 
         // Load the PDF document
