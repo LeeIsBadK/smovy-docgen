@@ -10,34 +10,36 @@ const isProd = process.env.NODE_ENV === 'production';
 import fetch from 'node-fetch';
 
 async function loadFontAndPdf() {
-    // Use the correct base URL depending on the environment
-    const baseUrl = process.env.NODE_ENV === 'production'
-        ? `https://${process.env.VERCEL_URL}`
-        : 'http://localhost:3000';  // Adjust this if your local development uses a different base URL
+    let fontBuffer, pdfBuffer;
 
-    // URLs for font and PDF files
-    const fontUrl = `${baseUrl}/fonts/THSarabunNew.ttf`;
-    const pdfUrl = `${baseUrl}/documents/form4231.pdf`;
+    if (process.env.NODE_ENV === 'production') {
+        // In production (Vercel), fetch the files using the production URL
+        const baseUrl = `https://${process.env.VERCEL_URL}`;
+        const fontUrl = `${baseUrl}/fonts/THSarabunNew/THSarabunNew.ttf`;
+        const pdfUrl = `${baseUrl}/documents/form4231.pdf`;
 
-    // Fetch the font and PDF from their URLs
-    const fontResponse = await fetch(fontUrl);
-    if (!fontResponse.ok) {
-        throw new Error(`Failed to fetch font: ${fontResponse.statusText}`);
+        // Fetch the font and PDF files
+        const fontResponse = await fetch(fontUrl);
+        if (!fontResponse.ok) {
+            throw new Error(`Failed to fetch font: ${fontResponse.statusText}`);
+        }
+        fontBuffer = await fontResponse.arrayBuffer();
+
+        const pdfResponse = await fetch(pdfUrl);
+        if (!pdfResponse.ok) {
+            throw new Error(`Failed to fetch PDF: ${pdfResponse.statusText}`);
+        }
+        pdfBuffer = await pdfResponse.arrayBuffer();
+    } else {
+        // For local development, read the font and PDF from the filesystem
+        const fontPath = path.join(process.cwd(), 'public', 'fonts', 'THSarabunNew' ,'THSarabunNew.ttf');
+        const pdfPath = path.join(process.cwd(), 'public', 'documents', 'form4231.pdf');
+
+        fontBuffer = await fs.promises.readFile(fontPath);
+        pdfBuffer = await fs.promises.readFile(pdfPath);
     }
-    const fontArrayBuffer = await fontResponse.arrayBuffer();
-
-    const pdfResponse = await fetch(pdfUrl);
-    if (!pdfResponse.ok) {
-        throw new Error(`Failed to fetch PDF: ${pdfResponse.statusText}`);
-    }
-    const pdfArrayBuffer = await pdfResponse.arrayBuffer();
-
-    return {
-        font: fontArrayBuffer,
-        pdf: pdfArrayBuffer
-    };
+    return { font: fontBuffer, pdf: pdfBuffer };
 }
-
 // Resolve the path for the font file
 
 // Update paths for Vercel (public folder)
@@ -98,7 +100,7 @@ async function form4231(data) {
         //print current path
 
         // Load the existing PDF
-        const existingPdfBytes = fs.readFileSync(pdf);
+        const existingPdfBytes = pdf;
 
         // Load the PDF document
         const pdfDoc = await PDFDocument.load(existingPdfBytes);
@@ -108,7 +110,7 @@ async function form4231(data) {
         pdfDoc.registerFontkit(fontkit);
 
         // Read the font file
-        const fontBytes = fs.readFileSync(font);
+        const fontBytes = font;
 
         // Embed the custom font
         const thSarabunFont = await pdfDoc.embedFont(fontBytes);
